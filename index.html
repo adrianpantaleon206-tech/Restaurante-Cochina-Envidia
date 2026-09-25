@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cochina Envidia - Restaurante & Bar</title>
+    <!-- Google Fonts: Playfair Display & Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS Integrado -->
+    <style>
+        /* Reset & Estilos Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-orange: #f97316;
+            --dark-orange: #c2410c;
+            --light-orange: #ffedd5;
+            --bg-white: #ffffff;
+            --bg-gray: #f8fafc;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-white);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1, h2, h3, .logo-container h1 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--bg-white);
+            border-bottom: 2px solid var(--light-orange);
+            padding: 1.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px -1px rgba(249, 115, 22, 0.05);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            color: var(--primary-orange);
+        }
+
+        .logo-container h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            letter-spacing: -0.5px;
+        }
+
+        .badge-tag {
+            background-color: var(--light-orange);
+            color: var(--dark-orange);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Navegación por pestañas */
+        .nav-tabs {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: 2px solid var(--border-color);
+            padding: 0.6rem 1.25rem;
+            border-radius: 30px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 500;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab-btn:hover {
+            border-color: var(--primary-orange);
+            color: var(--primary-orange);
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary-orange);
+            border-color: var(--primary-orange);
+            color: white;
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+        }
+
+        /* Contenedor principal */
+        .main-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem;
+            flex: 1;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            color: var(--dark-orange);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 2px solid var(--light-orange);
+            padding-bottom: 0.5rem;
+        }
+
+        .mt-xl { margin-top: 3.5rem; }
+        .mt-lg { margin-top: 2.5rem; }
+
+        /* Menú Grid & Tarjetas */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .menu-card {
+            background: var(--bg-white);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.03);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(249, 115, 22, 0.1);
+            border-color: var(--primary-orange);
+        }
+
+        .card-img-wrapper {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .card-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .menu-card:hover .card-img-wrapper img {
+            transform: scale(1.05);
+        }
+
+        .price-tag {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1rem;
+            backdrop-filter: blur(4px);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .card-body h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .card-body p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+            flex: 1;
+        }
+
+        .order-btn {
+            background-color: var(--primary-orange);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+        }
+
+        .order-btn:hover {
+            background-color: var(--dark-orange);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
+        }
+
+        .order-btn:disabled {
+            background-color: #cbd5e1;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        /* Consola de cocina (Promesas JS) */
+        .kitchen-console {
+            margin-top: 4rem;
+            background-color: #0f172a;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+            border: 1px solid #1e293b;
+        }
+
+        .console-header {
+            background-color: #1e293b;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #334155;
+        }
+
+        .console-header h3 {
+            color: #f8fafc;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .status-idle {
+            background-color: #475569;
+            color: white;
+            padding: 0.2rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-active {
+            background-color: var(--primary-orange);
+            color: white;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .console-body {
+            padding: 1.5rem;
+            min-height: 120px;
+            max-height: 250px;
+            overflow-y: auto;
+            font-family: 'Courier New', Courier, monospace;
+            color: #38bdf8;
+            font-size: 0.95rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .log-placeholder {
+            color: #64748b;
+            font-style: italic;
+        }
+
+        .log-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            animation: slideInLog 0.3s ease forwards;
+        }
+
+        @keyframes slideInLog {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .log-time {
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+
+        /* Tarjeta de resultado final */
+        .order-result-hidden {
+            display: none;
+            padding: 1.5rem;
+            background-color: #1e293b;
+            border-top: 1px solid #334155;
+        }
+
+        .order-result-hidden.visible {
+            display: block;
+            animation: fadeInResult 0.5s ease forwards;
+        }
+
+        @keyframes fadeInResult {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .result-card {
+            background: #0f172a;
+            border: 2px solid var(--primary-orange);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .result-img-box {
+            width: 120px;
+            height: 120px;
+            border-radius: 10px;
+            overflow: hidden;
+            flex-shrink: 0;
+            border: 1px solid var(--primary-orange);
+        }
+
+        .result-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .result-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .success-badge {
+            color: #4ade80;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .result-info h4 {
+            color: white;
+            font-size: 1.4rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .ticket-number-box {
+            background-color: rgba(249, 115, 22, 0.15);
+            border: 1px solid var(--primary-orange);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.25rem;
+        }
+
+        .ticket-label {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+        }
+
+        .ticket-number {
+            color: var(--primary-orange);
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Pestaña: ¿Qué es Cochina Envidia? */
+        .about-hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            background: var(--bg-gray);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .about-text .lead {
+            font-size: 1.2rem;
+            color: var(--dark-orange);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-text p {
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .about-image {
+            height: 400px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Pestaña: Contacto */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .contact-card {
+            background: var(--bg-gray);
+            border: 1px solid var(--border-color);
+            padding: 2.5rem 2rem;
+            border-radius: 16px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            transition: var(--transition);
+        }
+
+        .contact-card:hover {
+            border-color: var(--primary-orange);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(249, 115, 22, 0.1);
+        }
+
+        .contact-card i {
+            font-size: 2.5rem;
+            color: var(--primary-orange);
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-card h3 {
+            font-size: 1.3rem;
+            color: var(--text-dark);
+        }
+
+        .contact-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .contact-link {
+            color: var(--dark-orange);
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            margin-top: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .contact-link:hover {
+            color: var(--primary-orange);
+            text-decoration: underline;
+        }
+
+        .location-highlight {
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        /* Botón flotante WhatsApp */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background-color: #25d366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+            z-index: 99;
+            transition: var(--transition);
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            background-color: #20ba5a;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0f172a;
+            color: #94a3b8;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            border-top: 1px solid #1e293b;
+        }
+
+        .footer strong {
+            color: white;
+        }
+
+        .developer-credit {
+            font-size: 0.9rem;
+            color: var(--primary-orange);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .about-hero {
+                grid-template-columns: 1fr;
+                padding: 1.5rem;
+            }
+            .about-image {
+                height: 250px;
+            }
+            .header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header & Navegación -->
+    <header class="header">
+        <div class="logo-container">
+            <i class="fa-solid fa-martini-glass-citrus logo-icon"></i>
+            <h1>Cochina Envidia</h1>
+            <span class="badge-tag">Restaurante & Bar</span>
+        </div>
+        <nav class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('menu')"><i class="fa-solid fa-utensils"></i> Menú y Pedidos</button>
+            <button class="tab-btn" onclick="switchTab('about')"><i class="fa-solid fa-circle-info"></i> ¿Qué es Cochina Envidia?</button>
+            <button class="tab-btn" onclick="switchTab('contact')"><i class="fa-solid fa-address-book"></i> Contacto y Ubicación</button>
+        </nav>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="main-container">
+
+        <!-- PESTAÑA 1: MENÚ Y PEDIDOS -->
+        <section id="tab-menu" class="tab-content active">
+            <div class="section-title">
+                <h2>Nuestra Carta</h2>
+                <p>Haz clic en "Pedir Plato" para iniciar nuestro sistema asíncrono con Promesas y ver tu orden en cocina.</p>
+            </div>
+
+            <!-- Platos de Comida -->
+            <h3 class="category-title"><i class="fa-solid fa-plate-wheat"></i> Platos Principales</h3>
+            <div class="menu-grid">
+                <!-- Pasticho -->
+                <div class="menu-card">
+                    <div class="card-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=600&q=80" alt="Pasticho con Pepsi Cola">
+                        <span class="price-tag">$10.00</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>Pasticho con Pepsi Cola</h3>
+                        <p>Pasticho artesanal de la casa gratinado con queso mozzarella acompañado de una refrescante Pepsi Cola bien fría.</p>
+                        <button class="order-btn" onclick="orderItem('Pasticho con Pepsi Cola', 10, 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=600&q=80', 'comida')">
+                            <i class="fa-solid fa-bolt"></i> Pedir Plato
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Pizza -->
+                <div class="menu-card">
+                    <div class="card-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80" alt="Pizza con Palitos de Queso">
+                        <span class="price-tag">$15.00</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>Pizza con Palitos de Queso</h3>
+                        <p>Pizza artesanal al horno de piedra con doble porción de queso y bastoncitos de queso fundido crujientes.</p>
+                        <button class="order-btn" onclick="orderItem('Pizza con Palitos de Queso', 15, 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80', 'comida')">
+                            <i class="fa-solid fa-bolt"></i> Pedir Plato
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Calamares Rellenos -->
+                <div class="menu-card">
+                    <div class="card-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1599487488170-ded1ec26ae5f?auto=format&fit=crop&w=600&q=80" alt="Calamares Rellenos con Salsa Roja Picante">
+                        <span class="price-tag">$14.00</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>Calamares Rellenos con Salsa Roja Picante</h3>
+                        <p>Deliciosos calamares frescos rellenos de frutos del mar bañados en nuestra salsa roja picante especial.</p>
+                        <button class="order-btn" onclick="orderItem('Calamares Rellenos', 14, 'https://images.unsplash.com/photo-1599487488170-ded1ec26ae5f?auto=format&fit=crop&w=600&q=80', 'comida')">
+                            <i class="fa-solid fa-bolt"></i> Pedir Plato
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Licores y Bar -->
+            <h3 class="category-title mt-xl"><i class="fa-solid fa-wine-glass"></i> Barra y Licores</h3>
+            <div class="menu-grid">
+                <!-- Ron Santa Teresa -->
+                <div class="menu-card">
+                    <div class="card-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1527061011665-3652c757a4d4?auto=format&fit=crop&w=600&q=80" alt="Ron Santa Teresa">
+                        <span class="price-tag">$30.00</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>Ron Santa Teresa (Botella)</h3>
+                        <p>Exclusiva botella de Ron Santa Teresa Añejo para disfrutar en la mejor compañía de nuestro bar.</p>
+                        <button class="order-btn" onclick="orderItem('Ron Santa Teresa (Botella)', 30, 'https://images.unsplash.com/photo-1527061011665-3652c757a4d4?auto=format&fit=crop&w=600&q=80', 'licor')">
+                            <i class="fa-solid fa-wine-bottle"></i> Pedir Botella
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Whisky Old Parr -->
+                <div class="menu-card">
+                    <div class="card-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1527281400683-1aae777175f8?auto=format&fit=crop&w=600&q=80" alt="Whisky Old Parr">
+                        <span class="price-tag">$60.00</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>Whisky Old Parr (Botella)</h3>
+                        <p>Tradición escocesa de alta gama. Whisky Old Parr 12 años, suave y complejo al paladar.</p>
+                        <button class="order-btn" onclick="orderItem('Whisky Old Parr', 60, 'https://images.unsplash.com/photo-1527281400683-1aae777175f8?auto=format&fit=crop&w=600&q=80', 'licor')">
+                            <i class="fa-solid fa-wine-bottle"></i> Pedir Botella
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cócteles y Bebidas -->
+            <h3 class="category-title mt-lg"><i class="fa-solid fa-cocktail"></i> Coctelería Destacada</h3>
+            <div class="menu-grid">
+                <!-- Margarita -->
+                <div class="menu-card">
+                    <div class="card-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80" alt="Margarita Clásica">
+                        <span class="price-tag">$8.00</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>Margarita Clásica</h3>
+                        <p>Tequila 100% agave, Cointreau y jugo de limón fresco servido con borde de sal marina escarchada.</p>
+                        <button class="order-btn" onclick="orderItem('Margarita Clásica', 8, 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80', 'licor')">
+                            <i class="fa-solid fa-glass-water"></i> Pedir Cóctel
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mojito Cubano -->
+                <div class="menu-card">
+                    <div class="card-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=600&q=80" alt="Mojito Cubano">
+                        <span class="price-tag">$7.50</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>Mojito Cubano</h3>
+                        <p>Ron blanco, hojas de hierbabuena fresca, jugo de lima, azúcar, soda y un toque de angostura.</p>
+                        <button class="order-btn" onclick="orderItem('Mojito Cubano', 7.5, 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=600&q=80', 'licor')">
+                            <i class="fa-solid fa-glass-water"></i> Pedir Cóctel
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Coca-Cola -->
+                <div class="menu-card">
+                    <div class="card-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80" alt="Coca-Cola Helada">
+                        <span class="price-tag">$3.00</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>Coca-Cola Helada</h3>
+                        <p>Refresco clásico de 355ml servido con abundante hielo y rodaja de limón opcional.</p>
+                        <button class="order-btn" onclick="orderItem('Coca-Cola Helada', 3, 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80', 'licor')">
+                            <i class="fa-solid fa-glass-water"></i> Pedir Bebida
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SIMULADOR DE PROMESAS / CONSOLA DE COCINA -->
+            <div class="kitchen-console">
+                <div class="console-header">
+                    <h3><i class="fa-solid fa-terminal"></i> Consola de Cocina (Promesas JS & setTimeout)</h3>
+                    <span id="kitchen-status-badge" class="status-idle">En espera</span>
+                </div>
+                <div id="console-logs" class="console-body">
+                    <p class="log-placeholder">Selecciona un producto arriba para iniciar la promesa del pedido...</p>
+                </div>
+                
+                <!-- Resultado de Orden Completada -->
+                <div id="order-result-box" class="order-result-hidden">
+                    <div class="result-card">
+                        <div class="result-img-box">
+                            <img id="result-img" src="" alt="Plato Listo">
+                        </div>
+                        <div class="result-info">
+                            <span class="success-badge"><i class="fa-solid fa-circle-check"></i> ¡Pedido Finalizado!</span>
+                            <h4 id="result-title">Nombre del Plato</h4>
+                            <div class="ticket-number-box">
+                                <span class="ticket-label">Busque su orden número:</span>
+                                <span id="result-ticket-num" class="ticket-number">00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PESTAÑA 2: ¿QUÉ ES COCHINA ENVIDIA? -->
+        <section id="tab-about" class="tab-content">
+            <div class="about-hero">
+                <div class="about-text">
+                    <h2>¿Qué es Cochina Envidia?</h2>
+                    <p class="lead">No es solo un local, es una experiencia gastronómica y nocturna de alto nivel en la ciudad.</p>
+                    <p><strong>Cochina Envidia</strong> nace bajo el concepto innovador de fusionar un restaurante de autor con un bar vibrante y exclusivo. Nuestro objetivo es ofrecer un espacio donde los comensales no solo disfrutan de platos memorables preparados con ingredientes frescos y de calidad superior, sino que también viven noches inolvidables acompañados de la mejor coctelería y licores internacionales.</p>
+                    <p>Ya sea para una cena íntima, una celebración especial o un momento de desconexión en nuestro bar, en Cochina Envidia convertimos cada visita en momentos llenos de sabor, elegancia y buen gusto.</p>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80" alt="Ambiente Cochina Envidia">
+                </div>
+            </div>
+        </section>
+
+        <!-- PESTAÑA 3: CONTACTO Y UBICACIÓN -->
+        <section id="tab-contact" class="tab-content">
+            <div class="contact-container">
+                <div class="section-title">
+                    <h2>Información de Contacto</h2>
+                    <p>Estamos a tu completa disposición para pedidos delivery y reservaciones.</p>
+                </div>
+                <div class="contact-grid">
+                    <div class="contact-card">
+                        <i class="fa-brands fa-whatsapp"></i>
+                        <h3>Delivery WhatsApp</h3>
+                        <p>Haz tus pedidos directos a domicilio:</p>
+                        <a href="https://wa.me/584143724113?text=Hola%20Cochina%20Envidia,%20quiero%20hacer%20un%20pedido" target="_blank" class="contact-link">0414-3724113</a>
+                    </div>
+                    <div class="contact-card">
+                        <i class="fa-solid fa-envelope"></i>
+                        <h3>Correo Electrónico</h3>
+                        <p>Escríbenos tus dudas o sugerencias:</p>
+                        <a href="mailto:cochinaenvidia@gmail.com" class="contact-link">cochinaenvidia@gmail.com</a>
+                    </div>
+                    <div class="contact-card">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <h3>Ubicación Física</h3>
+                        <p>Visítanos en nuestras instalaciones:</p>
+                        <a href="https://maps.google.com/?q=Centro+Comercial+Terras+Plaza+Caracas" target="_blank" class="contact-link location-highlight">
+                            Centro Comercial Terras Plaza, Piso 1, Caracas
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Botón flotante de WhatsApp -->
+    <a href="https://wa.me/584143724113?text=Hola%20Cochina%20Envidia,%20quiero%20hacer%20un%20pedido" target="_blank" class="whatsapp-float" title="Delivery WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 <strong>Cochina Envidia</strong> - Restaurante & Bar. Todos los derechos reservados.</p>
+        <p class="developer-credit">Desarrollado por <strong>Adrian Pantaleon</strong></p>
+    </footer>
+
+    <!-- Archivo JS Externo -->
+    <script src="app.js"></script>
+</body>
+</html>
